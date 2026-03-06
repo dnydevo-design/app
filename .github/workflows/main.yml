@@ -22,11 +22,6 @@ jobs:
         with:
           channel: 'stable' 
 
-      - name: Clean and Recreate Android Files
-        run: |
-          rm -rf android
-          flutter create --platforms=android .
-
       - name: Install Dependencies
         run: flutter pub get
 
@@ -38,4 +33,3 @@ jobs:
         with:
           name: app-apk
           path: build/app/outputs/flutter-apk/app-release.apk
-
