@@ -2,7 +2,7 @@ name: SwiftBolt Final Build
 on:
   push:
     branches: [ "main" ]
-  workflow_dispatch: # الزرار اليدوي اللي بنشغل منه المصنع
+  workflow_dispatch: 
 
 jobs:
   build:
@@ -20,8 +20,8 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.19.0'
-          channel: 'stable'
+          # غيرنا الإصدار لـ stable عشان يضمن لنا أحدث Dart SDK
+          channel: 'stable' 
 
       - name: Install Dependencies
         run: flutter pub get
@@ -30,7 +30,7 @@ jobs:
         run: flutter build apk --release
 
       - name: Upload APK
-        uses: actions/upload-artifact@v4 # التعديل اللي هيخلي الرفع ينجح
+        uses: actions/upload-artifact@v4
         with:
           name: swiftbolt-apk
           path: build/app/outputs/flutter-apk/app-release.apk
