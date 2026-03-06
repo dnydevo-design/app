@@ -25,6 +25,12 @@ jobs:
       - name: Install Dependencies
         run: flutter pub get
 
+      # الخطوة دي هتحل مشكلة الويندوز واللينكس
+      - name: Fix gradlew
+        run: |
+          sed -i 's/\r$//' android/gradlew
+          chmod +x android/gradlew
+
       - name: Build APK
         run: flutter build apk --release
 
@@ -33,3 +39,4 @@ jobs:
         with:
           name: app-apk
           path: build/app/outputs/flutter-apk/app-release.apk
+          
