@@ -26,18 +26,19 @@ subprojects {
 }
 
 subprojects {
-    afterEvaluate { project ->
-        if (project.hasProperty('android') && project.android.namespace == null) {
-            def manifest = project.file("src/main/AndroidManifest.xml")
-            if (manifest.exists()) {
-                def text = manifest.text
-                def matcher = text =~ /package="([^"]+)"/
-                if (matcher.find()) {
-                    project.android.namespace = matcher.group(1)
-                }
+    project.plugins.withId("com.android.library") {
+        def manifest = project.file("src/main/AndroidManifest.xml")
+        def extractedNamespace = null
+        if (manifest.exists()) {
+            def text = manifest.text
+            def matcher = text =~ /package="([^"]+)"/
+            if (matcher.find()) {
+                extractedNamespace = matcher.group(1)
             }
-            if (project.android.namespace == null) {
-                project.android.namespace = project.group ?: "com.example.flutter_${project.name}".replaceAll('-', '_')
+        }
+        project.android {
+            if (namespace == null) {
+                namespace extractedNamespace ?: project.group ?: "com.example.flutter_${project.name}".replaceAll('-', '_')
             }
         }
     }
