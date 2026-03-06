@@ -57,7 +57,7 @@ dependencies:
   share_plus: ^10.1.4
   get_it: ^8.0.2
   rxdart: ^0.28.0
-  ffmpeg_kit_flutter: ^6.0.3
+  ffmpeg_kit_flutter: 5.1.0
   file_picker: ^8.1.2
 
 dev_dependencies:
@@ -69,18 +69,17 @@ flutter:
   uses-material-design: true
   generate: true
 
-  # تم تعطيل الصور والخطوط مؤقتاً عشان البناء ينجح
-  # assets:
-  #   - assets/images/
-  #   - assets/icons/
+  assets:
+    - assets/images/
+    - assets/icons/
 
-  # fonts:
-  #   - family: Inter
-  #     fonts:
-  #       - asset: assets/fonts/Inter-Regular.ttf
-  #       - asset: assets/fonts/Inter-Medium.ttf
-  #         weight: 500
-  #       - asset: assets/fonts/Inter-SemiBold.ttf
-  #         weight: 600
-  #       - asset: assets/fonts/Inter-Bold.ttf
-  #         weight: 700
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter-Regular.ttf
+        - asset: assets/fonts/Inter-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Inter-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Inter-Bold.ttf
+          weight: 700
