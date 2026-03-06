@@ -20,14 +20,15 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          # غيرنا الإصدار لـ stable عشان يضمن لنا أحدث Dart SDK
           channel: 'stable' 
 
-      - name: Install Dependencies
-        run: flutter pub get
+      - name: Clean and Repair
+        run: |
+          flutter clean
+          flutter pub get
 
-      - name: Build APK
-        run: flutter build apk --release
+      - name: Build APK (Force V2)
+        run: flutter build apk --release --no-tree-shake-icons
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
