@@ -22,13 +22,33 @@ jobs:
         with:
           channel: 'stable' 
 
-      - name: Clean and Repair
+      - name: Smart Fix for Android V1
         run: |
-          flutter clean
-          flutter pub get
+          python3 -c '
+          import os, glob, re
+          path = "android/app/src/main/AndroidManifest.xml"
+          if os.path.exists(path):
+              with open(path, "r") as f:
+                  content = f.read()
+              if "flutterEmbedding" not in content:
+                  content = content.replace("<activity", "<meta-data android:name=\"flutterEmbedding\" android:value=\"2\" />\n        <activity", 1)
+                  with open(path, "w") as f:
+                      f.write(content)
+          for ext in ["*.java", "*.kt"]:
+              for file_path in glob.glob("android/app/src/main/**/" + ext, recursive=True):
+                  with open(file_path, "r") as f:
+                      content = f.read()
+                  content = content.replace("io.flutter.app.FlutterActivity", "io.flutter.embedding.android.FlutterActivity")
+                  content = re.sub(r"GeneratedPluginRegistrant\.registerWith\(.*?\);?", "", content)
+                  with open(file_path, "w") as f:
+                      f.write(content)
+          '
 
-      - name: Build APK (Force V2)
-        run: flutter build apk --release --no-tree-shake-icons
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Build APK
+        run: flutter build apk --release
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
